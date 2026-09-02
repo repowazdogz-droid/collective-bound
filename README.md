@@ -115,9 +115,11 @@ confirmed each is exploitable as far as predicted.
   and the faithfulness of a linear-integer encoding to the informal model; the boundary
   (harm factors through the aggregate) is not re-proved in Lean.
 - The channel-blindness result (0003) encodes the *conclusion* of perfectly secure
-  steganography (identical observations, KL = 0) as the adversary, following
-  Schroeder de Witt et al., *Secret Collusion among AI Agents*, NeurIPS 2024
-  (https://arxiv.org/abs/2402.07510). It does not re-derive that construction.
+  steganography (identical observations, KL = 0) as the adversary. The perfect-security
+  construction is Schroeder de Witt et al., *Perfectly Secure Steganography Using Minimum
+  Entropy Coupling*, ICLR 2023 (https://arxiv.org/abs/2210.14889); its use for undetectable
+  collusion between AI agents is Motwani et al., *Secret Collusion among AI Agents*,
+  NeurIPS 2024 (https://arxiv.org/abs/2402.07510). It does not re-derive that construction.
 - The per-agent cap is not shown to be unfixable. A local allowance of floor(G / N) is
   collectively safe when the population and its utilisation are known and fixed; what the
   results show is that the local rule needs assumptions the sum rule does not.
