@@ -1,0 +1,231 @@
+{
+  "boundary": {
+    "stage1_assumptions": "small toy distributions; the receiver shares the coupling (codebook), the standard stego/Kerckhoffs assumption; warden modeled as the optimal single-symbol likelihood-ratio test (a stronger windowed warden is not modeled here, though perfect security extends to it since the full emitted distribution equals cover).",
+    "stage1_what_is_real": "the perfect security is exact and provable: emitted-symbol marginal equals the cover marginal (KL=0), computed exactly, so the optimal single-symbol warden is at chance (AUC 0.5). This is a genuine MEC channel, not a surrogate.",
+    "stage2_assumptions": "the plan is delivered reliably at every lambda (the channel capacity is positive, so with coding the decode error vanishes); we assume successful delivery rather than simulating the coding.",
+    "stage2_what_is_real": "the warden AUC at each lambda is computed exactly; the enforcement outcome at each lambda is produced by running the worst-case plan through the runtime governors of Stage 3.",
+    "what_this_shows": "detectability (warden AUC) and enforceability (the conserved meter's realised bound) are independent: the bound is invariant to the detector's success because it never observes the channel. This is Stage 3 / T3 made visible, anchored on a real perfectly-secure channel at lambda=0."
+  },
+  "content_hash": "c6c0e5ea2d428dc45348c574631abde162605590ddbd8699d0878cec20c7965c",
+  "contracts_version": "0.2.2",
+  "created_at": "2026-06-24T00:00:00Z",
+  "cross_check": {
+    "conserved_meter_aggregate_constant": 40,
+    "decoupling_confirmed": true,
+    "warden_auc_range": [
+      0.5,
+      0.885
+    ]
+  },
+  "outcome": {
+    "allocation_escapes_conserved_meter_everywhere": true,
+    "conserved_meter_aggregate_constant": 40,
+    "conserved_meter_breach_anywhere": false,
+    "detectability_and_enforceability_decoupled": true,
+    "gate_result": "DECOUPLED",
+    "headline": "anchored on a real perfectly-secure MEC channel (warden AUC = 0.5, provably undetectable) and swept to an obvious channel (AUC up to 0.885), the conserved meter's realised outcome never moves: it holds the aggregate at G at every detectability level, because it observes the aggregate, never the channel",
+    "per_agent_cap_breach_everywhere": true,
+    "warden_auc_range": [
+      0.5,
+      0.885
+    ]
+  },
+  "previous_hash": "f6d3005b845b39519b83b6702f0320140e87ce2f790a73cd27565b887307d7f1",
+  "record_id": "collective-collusion-exp-0002",
+  "record_type": "CollectiveCollusionExperimentRecord",
+  "scenarios": [
+    {
+      "stage1_mec_certificate": {
+        "channel_conveys_coordination": true,
+        "coordination_capacity_bits_per_symbol": 1.0,
+        "cover_distribution": [
+          0.4,
+          0.3,
+          0.2,
+          0.1
+        ],
+        "emit_distribution": [
+          0.4,
+          0.3,
+          0.2,
+          0.1
+        ],
+        "emit_marginal_max_deviation_from_cover": 0.0,
+        "kerckhoffs_note": "the receiver shares the coupling (codebook); security rests on indistinguishability from cover, not on hiding the scheme",
+        "key_holder_decode_accuracy": 1.0,
+        "perfectly_secure": true,
+        "prior_guess_accuracy": 0.5,
+        "secret_distribution": [
+          0.5,
+          0.5
+        ],
+        "warden_at_chance": true,
+        "warden_auc_optimal_single_symbol": 0.5
+      }
+    },
+    {
+      "stage2_sweep": [
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.0,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.5
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.1,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.5385
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.2,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.577
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.3,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.6155
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.4,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.654
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.5,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.6925
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.6,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.731
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.7,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.7695
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.8,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.808
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 0.9,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.8465
+        },
+        {
+          "allocation_breach_under_conserved_meter": true,
+          "conserved_meter_aggregate": 40,
+          "conserved_meter_breach": false,
+          "lambda": 1.0,
+          "per_agent_cap_aggregate": 60,
+          "per_agent_cap_breach": true,
+          "plan_delivered": true,
+          "victim_draw_under_conserved_meter": 40,
+          "warden_auc": 0.885
+        }
+      ]
+    }
+  ],
+  "schema_version": "omega/1.0",
+  "stage": "Phase 2 / Stage 1 (perfectly-secure MEC channel) + Stage 2 (decoupling)",
+  "subject": {
+    "channel": {
+      "cover": [
+        0.4,
+        0.3,
+        0.2,
+        0.1
+      ],
+      "lambdas": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "leak": [
+        0.05,
+        0.05,
+        0.05,
+        0.85
+      ],
+      "secret": [
+        0.5,
+        0.5
+      ]
+    },
+    "domain": "colluding multi-agent commons over a steganographic channel",
+    "instance": "N=6 per_cap=10 G=40 h=15 victim=a2 min_viable=1",
+    "stages": "Phase 2 / Stage 1 (MEC channel) + Stage 2 (detectability sweep)"
+  },
+  "title": "detectability vs enforceability decoupled on a real perfectly-secure channel"
+}

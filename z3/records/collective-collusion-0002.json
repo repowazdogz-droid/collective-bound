@@ -1,0 +1,134 @@
+{
+  "boundary": {
+    "collusion_is_worst_case": "collusion is modeled as joint worst-case action: the population selects the whole profile together to maximise harm. This dominates any coordination scheme, so a breach UNSAT holds against ALL of them at once. A real steganographic channel is one realisation of this worst case, not a stronger adversary.",
+    "exact_line": "a conserved meter (sum<=G) bounds a harm under worst-case collusion iff the harm factors through the aggregate (no equal-aggregate pair differs in harm). Conserved harm factors (UNSAT to differ) and is bounded; allocation-dependent harm does not factor (SAT witness pair) and escapes.",
+    "modeled_vs_general": [
+      "single scalar conserved pool; real systems may have several coupled resources",
+      "single round of integer draws; real draws are repeated and may be continuous",
+      "additive aggregate harm for the conserved case; real harm may be nonlinear in the sum",
+      "fixed, known N; real colluding populations can grow or be unknown",
+      "allocation harm modeled as one designated victim's draw; real allocation harms are richer"
+    ],
+    "stego_bridge_honesty": "T3 encodes de Witt's perfect-security CONCLUSION (observational indistinguishability, KL=0) as an assumption - two executions sharing one channel observation - not his steganographic construction. The result is that the conserved meter never reads the channel, so undetectability is irrelevant to its guarantee.",
+    "what_is_proven": "Z3 certifies SAT/UNSAT of the ENCODED constraints. UNSAT of a breach query certifies that, within the modeled commons, NO jointly-chosen (fully colluding) profile breaches; SAT exhibits a concrete colluding witness. It does not certify that real agents obey the model."
+  },
+  "claims": {
+    "allocation_escapes": {
+      "breach_reachable": true,
+      "claim": "allocation-dependent harm escapes the conserved meter under collusion",
+      "harm_kind": "allocation-dependent (harm = d_victim)",
+      "query": "exists coordinated profile with sum<=G and d_victim>h",
+      "verdict": "SAT",
+      "witness": {
+        "d_victim": 16,
+        "h": 15,
+        "meter_satisfied": true,
+        "nonzero_draws": [
+          [
+            2,
+            16
+          ]
+        ],
+        "note": "aggregate obeys the conserved meter (sum<=G) yet the victim's draw exceeds h: the meter never constrained WHO drew, only HOW MUCH in total",
+        "profile": [
+          0,
+          0,
+          16,
+          0,
+          0,
+          0
+        ],
+        "sum": 16,
+        "victim": 2
+      }
+    },
+    "allocation_meter_closes": {
+      "breach_reachable": false,
+      "claim": "an allocation-aware meter closes what the conserved meter cannot",
+      "needs": "an allocation-level constraint (per-recipient cap), not just sum<=G",
+      "query": "under a per-recipient cap (d_i<=h), exists profile with d_victim>h",
+      "verdict": "UNSAT"
+    },
+    "conserved_bounded": {
+      "bound_delivered": "harm <= G = 40",
+      "breach_reachable": false,
+      "claim": "conserved harm is bounded by the conserved meter under collusion",
+      "harm_kind": "conserved (harm = sum_i d_i)",
+      "query": "exists coordinated profile with harm=sum<=G and harm>G",
+      "verdict": "UNSAT"
+    },
+    "factors_allocation": {
+      "claim": "allocation harm does NOT factor through the aggregate (meter is blind to it)",
+      "conserved_meter_can_bound_it": false,
+      "differs_at_equal_aggregate": true,
+      "factors_through_aggregate": false,
+      "harm_kind": "allocation",
+      "query": "exists two profiles with equal aggregate but different harm",
+      "verdict": "SAT",
+      "witness": {
+        "aggregate": 1,
+        "equal_aggregate": true,
+        "harm_1": 1,
+        "harm_2": 0,
+        "note": "same aggregate, different allocation harm: the harm carries information the aggregate does not",
+        "profile_1": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "profile_2": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "factors_conserved": {
+      "claim": "conserved harm factors through the aggregate (meter can bound it)",
+      "conserved_meter_can_bound_it": true,
+      "differs_at_equal_aggregate": false,
+      "factors_through_aggregate": true,
+      "harm_kind": "conserved",
+      "query": "exists two profiles with equal aggregate but different harm",
+      "verdict": "UNSAT",
+      "witness": null
+    }
+  },
+  "content_hash": "95a0989fed30781002aa34bd24b16cfcf5396d7df83a363738bb198970824440",
+  "contracts_version": "0.2.2",
+  "created_at": "2026-06-24T00:00:00Z",
+  "outcome": {
+    "allocation_closed_by_allocation_meter": true,
+    "allocation_harm_escapes_conserved_meter": true,
+    "allocation_needs": "an allocation-level constraint (per-recipient cap), not just sum<=G",
+    "boundary_is_factor_through_aggregate": true,
+    "conserved_harm_bounded_under_collusion": true,
+    "gate_result": "BOUNDED",
+    "headline": "the conserved meter bounds exactly the harms that factor through the aggregate; allocation-dependent harm provably does not factor, so it escapes and needs an allocation-level constraint"
+  },
+  "previous_hash": "3fd7b869901c69430c41d64306ea6fd954cc2f4fe1d8ab2f300702fd36615fb3",
+  "record_id": "collective-collusion-0002",
+  "record_type": "CollectiveCollusionRecord",
+  "schema_version": "omega/1.0",
+  "subject": {
+    "collusion_model": "agents choose the entire draw profile jointly with full mutual knowledge through a shared coordination channel - the worst case, which every real channel realises",
+    "domain": "colluding multi-agent commons",
+    "instance": "N=6 per_cap=10 G=40 h=15 victim=a2 min_viable=1",
+    "params": {
+      "G": 40,
+      "N": 6,
+      "h": 15,
+      "min_viable": 1,
+      "per_cap": 10,
+      "victim": 2
+    }
+  },
+  "theorem_id": "T2",
+  "title": "exact boundary: conserved vs allocation-dependent"
+}

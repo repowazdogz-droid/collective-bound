@@ -1,0 +1,142 @@
+{
+  "boundary": {
+    "controller_optimality": "the controller issues maximal sequential requests and the governor grants greedily; for these governors greedy admission realises the extremal outcome, which is why it matches the solver's extremes",
+    "model_scope": "same modeled commons as Phase 1: single scalar pool, integer draws, additive aggregate, fixed N, allocation harm = one victim's draw",
+    "what_this_does_not_show": "this is the centralised controller (Stage 3): a single planner picks the joint profile. It does not yet show decentralised agents coordinating through a channel (Stage 2) or a steganographic, information-theoretically-undetectable channel (Stage 1)",
+    "what_this_shows": "the worst-case collusion the proof quantifies over is realised by an actual controller against actual runtime mechanisms; the realised outcomes match the proof exactly"
+  },
+  "content_hash": "f6d3005b845b39519b83b6702f0320140e87ce2f790a73cd27565b887307d7f1",
+  "contracts_version": "0.2.2",
+  "created_at": "2026-06-24T00:00:00Z",
+  "cross_check": {
+    "all_match": true,
+    "method": "each runtime scenario's empirical breach (measured value vs limit) is compared to the corresponding Phase 1 Z3 SAT/UNSAT verdict",
+    "n_scenarios": 4
+  },
+  "outcome": {
+    "allocation_harm_escapes_conserved_meter": true,
+    "allocation_meter_closes_it": true,
+    "conserved_meter_holds": true,
+    "empirical_mirror_of_proof": true,
+    "gate_result": "CONFIRMED",
+    "headline": "a single worst-case controller, playing the literal collusion the theorems assume, reproduces every SAT/UNSAT verdict against runtime governors: the conserved meter holds, the per-agent cap fails, allocation harm escapes until an allocation-level rule is added",
+    "per_agent_cap_defeated": true
+  },
+  "previous_hash": "34142856bfe3b0f1144debde6282d8ab7236f58b99416babc1d95eef4079a220",
+  "record_id": "collective-collusion-exp-0001",
+  "record_type": "CollectiveCollusionExperimentRecord",
+  "scenarios": [
+    {
+      "aggregate": 60,
+      "draws": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "empirical_breach": true,
+      "empirical_matches_proof": true,
+      "governor": "per-agent-cap",
+      "harm_kind": "conserved",
+      "limit": 40,
+      "limit_name": "G",
+      "measured_quantity": "aggregate",
+      "measured_value": 60,
+      "objective": "collective",
+      "tag": "T1-SAT",
+      "victim_draw": 10,
+      "z3_breach_reachable": true,
+      "z3_query": "t1_per_agent_defeated (breach reachable)"
+    },
+    {
+      "aggregate": 40,
+      "draws": [
+        40,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empirical_breach": false,
+      "empirical_matches_proof": true,
+      "governor": "conserved-meter",
+      "harm_kind": "conserved",
+      "limit": 40,
+      "limit_name": "G",
+      "measured_quantity": "aggregate",
+      "measured_value": 40,
+      "objective": "collective",
+      "tag": "T1-UNSAT",
+      "victim_draw": 0,
+      "z3_breach_reachable": false,
+      "z3_query": "t1_conserved_meter_holds (breach reachable)"
+    },
+    {
+      "aggregate": 40,
+      "draws": [
+        0,
+        0,
+        40,
+        0,
+        0,
+        0
+      ],
+      "empirical_breach": true,
+      "empirical_matches_proof": true,
+      "governor": "conserved-meter",
+      "harm_kind": "allocation",
+      "limit": 15,
+      "limit_name": "h",
+      "measured_quantity": "victim_draw",
+      "measured_value": 40,
+      "objective": "victim",
+      "tag": "T2-SAT",
+      "victim_draw": 40,
+      "z3_breach_reachable": true,
+      "z3_query": "t2_allocation_escapes (breach reachable)"
+    },
+    {
+      "aggregate": 15,
+      "draws": [
+        0,
+        0,
+        15,
+        0,
+        0,
+        0
+      ],
+      "empirical_breach": false,
+      "empirical_matches_proof": true,
+      "governor": "allocation-meter",
+      "harm_kind": "allocation",
+      "limit": 15,
+      "limit_name": "h",
+      "measured_quantity": "victim_draw",
+      "measured_value": 15,
+      "objective": "victim",
+      "tag": "T2-closure-UNSAT",
+      "victim_draw": 15,
+      "z3_breach_reachable": false,
+      "z3_query": "t2_allocation_meter_closes (breach reachable)"
+    }
+  ],
+  "schema_version": "omega/1.0",
+  "stage": "Phase 2 / Stage 3 - centralised joint controller",
+  "subject": {
+    "collusion_realisation": "centralised joint controller (Stage 3)",
+    "domain": "colluding multi-agent commons (runtime simulation)",
+    "instance": "N=6 per_cap=10 G=40 h=15 victim=a2 min_viable=1",
+    "params": {
+      "G": 40,
+      "N": 6,
+      "h": 15,
+      "min_viable": 1,
+      "per_cap": 10,
+      "victim": 2
+    }
+  },
+  "title": "empirical mirror: worst-case controller reproduces the proof verdicts"
+}

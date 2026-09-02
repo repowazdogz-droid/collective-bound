@@ -1,0 +1,4 @@
+lean/.lake/
+z3/out/
+__pycache__/
+*.pyc

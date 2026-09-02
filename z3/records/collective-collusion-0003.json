@@ -1,0 +1,93 @@
+{
+  "boundary": {
+    "collusion_is_worst_case": "collusion is modeled as joint worst-case action: the population selects the whole profile together to maximise harm. This dominates any coordination scheme, so a breach UNSAT holds against ALL of them at once. A real steganographic channel is one realisation of this worst case, not a stronger adversary.",
+    "exact_line": "a conserved meter (sum<=G) bounds a harm under worst-case collusion iff the harm factors through the aggregate (no equal-aggregate pair differs in harm). Conserved harm factors (UNSAT to differ) and is bounded; allocation-dependent harm does not factor (SAT witness pair) and escapes.",
+    "modeled_vs_general": [
+      "single scalar conserved pool; real systems may have several coupled resources",
+      "single round of integer draws; real draws are repeated and may be continuous",
+      "additive aggregate harm for the conserved case; real harm may be nonlinear in the sum",
+      "fixed, known N; real colluding populations can grow or be unknown",
+      "allocation harm modeled as one designated victim's draw; real allocation harms are richer"
+    ],
+    "stego_bridge_honesty": "T3 encodes de Witt's perfect-security CONCLUSION (observational indistinguishability, KL=0) as an assumption - two executions sharing one channel observation - not his steganographic construction. The result is that the conserved meter never reads the channel, so undetectability is irrelevant to its guarantee.",
+    "what_is_proven": "Z3 certifies SAT/UNSAT of the ENCODED constraints. UNSAT of a breach query certifies that, within the modeled commons, NO jointly-chosen (fully colluding) profile breaches; SAT exhibits a concrete colluding witness. It does not certify that real agents obey the model."
+  },
+  "claims": {
+    "bound_survives": {
+      "breach_reachable": false,
+      "bridge": "undetectability is orthogonal to the guarantee: the meter never tried to observe the channel, only the aggregate",
+      "claim": "the conserved bound survives an information-theoretically-undetectable channel",
+      "query": "exists invisibly-coordinated profile with sum<=G and sum>G",
+      "verdict": "UNSAT"
+    },
+    "detection_defeated": {
+      "claim": "detection is defeated in the perfect-security (zero-KL) regime",
+      "encoding_honesty": "we encode de Witt's CONCLUSION (observational indistinguishability / KL=0) as an assumption, not his steganographic construction",
+      "indistinguishable": true,
+      "monitor_can_distinguish": false,
+      "query": "exists colluding & innocent executions with identical channel observation",
+      "verdict": "SAT",
+      "witness": {
+        "behaviours_differ": true,
+        "colluding_profile": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "innocent_profile": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "note": "two genuinely different behaviours, one observation: a monitor reading the channel cannot tell them apart",
+        "shared_observation": [
+          0,
+          0
+        ]
+      }
+    },
+    "meter_channel_blind": {
+      "channel_blind": true,
+      "claim": "the conserved meter is channel-blind (non-interference)",
+      "consequence": "the verdict depends only on the aggregate; channel content - detectable or not - cannot change it",
+      "query": "exists equal-aggregate executions with differing conserved-meter verdict",
+      "verdict": "UNSAT",
+      "violation_reachable": false
+    }
+  },
+  "content_hash": "34142856bfe3b0f1144debde6282d8ab7236f58b99416babc1d95eef4079a220",
+  "contracts_version": "0.2.2",
+  "created_at": "2026-06-24T00:00:00Z",
+  "outcome": {
+    "bound_survives_undetectable_channel": true,
+    "conserved_meter_is_channel_blind": true,
+    "detection_defeated_in_perfect_security_regime": true,
+    "gate_result": "COMMITTED",
+    "headline": "the meter's guarantee does not depend on observing the collusion channel; even an information-theoretically undetectable channel cannot defeat a bound on the aggregate"
+  },
+  "previous_hash": "95a0989fed30781002aa34bd24b16cfcf5396d7df83a363738bb198970824440",
+  "record_id": "collective-collusion-0003",
+  "record_type": "CollectiveCollusionRecord",
+  "schema_version": "omega/1.0",
+  "subject": {
+    "collusion_model": "agents choose the entire draw profile jointly with full mutual knowledge through a shared coordination channel - the worst case, which every real channel realises",
+    "domain": "colluding multi-agent commons",
+    "instance": "N=6 per_cap=10 G=40 h=15 victim=a2 min_viable=1",
+    "params": {
+      "G": 40,
+      "N": 6,
+      "h": 15,
+      "min_viable": 1,
+      "per_cap": 10,
+      "victim": 2
+    }
+  },
+  "theorem_id": "T3",
+  "title": "undetectability-independence"
+}
