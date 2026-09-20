@@ -1,5 +1,14 @@
 # collective-bound
 
+Formal and executable evidence for the AMLUCS 2026 accepted work
+**“Per-Agent Compliant, Collectively Unsafe: A Deployable Collective Bound for
+Colluding AI Agents.”**
+
+- [AMLUCS poster (PDF)](https://www.omegaprotocol.org/amlucs-2026-poster.pdf)
+- [Collective briefing, limits and interactive exhibit](https://www.omegaprotocol.org/collective/)
+- [Preregistered live-agent study](https://github.com/repowazdogz-droid/commons-agent-lab)
+- [Reproduction instructions](#reproduce)
+
 The formal core behind one result: **a population of agents can each stay inside its own
 cap while their draws together breach a shared pool, and a single rule on the sum removes
 every such breach, with an exact statement of where that rule stops holding.**
