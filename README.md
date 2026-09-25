@@ -10,8 +10,9 @@ Colluding AI Agents.”**
 - [Reproduction instructions](#reproduce)
 
 The formal core behind one result: **a population of agents can each stay inside its own
-cap while their draws together breach a shared pool, and a single rule on the sum removes
-every such breach, with an exact statement of where that rule stops holding.**
+cap while their nonnegative draws together exceed a smaller shared pool, and a single rule on
+the sum removes every such breach in the encoded model. A second, allocation-dependent harm
+escapes that rule in the same model.**
 
 This repository contains only what the published claims rest on, so that anyone can
 re-derive them without access to the author's machine. It is the reproduction surface for
@@ -23,7 +24,7 @@ https://www.omegaprotocol.org/collective/ and for the AMLUCS 2026 poster
 | part | files | what it establishes | checked by |
 |---|---|---|---|
 | Lean 4 core | `lean/CrossLayer/General.lean`, `lean/CrossLayer/AccumulationWitness.lean` | six theorems over closed data: cap 10, budget 40, six agents | the Lean 4.30.0 kernel; `#print axioms` reports no axioms for each |
-| Z3 extensions | `z3/cce_model.py`, `z3/run_cce.py`, `z3/records/collective-collusion-000{1,2,3}.json` | eleven SAT/UNSAT verdicts with witnesses: the per-agent cap is defeated, the sum rule holds for every profile, the exact boundary (harm must factor through the aggregate), channel-blindness | z3 4.16.0; the sealed records regenerate byte for byte |
+| Z3 extensions | `z3/cce_model.py`, `z3/run_cce.py`, `z3/records/collective-collusion-000{1,2,3}.json` | eleven SAT/UNSAT verdicts with witnesses: the per-agent cap is defeated, the sum rule holds for every profile, a two-instance contrast (a harm equal to the sum is bounded; a harm equal to one agent's draw escapes at h = 15 < G = 40, and needs an allocation-level constraint), channel-blindness | z3 4.16.0; the sealed records regenerate byte for byte |
 | Learning adversary | `z3/cce_rl.py`, `z3/run_rl.py`, `z3/records/collective-collusion-exp-0003.json` | 180,000 hold episodes never exceed the bound; three hand-built relaxations are each exploitable to the magnitude the law predicts, with a Z3 witness each | seeded numpy; the sealed record regenerates byte for byte (about 90 s) |
 | Negative controls | `z3/controls/mutations.py`, `lean/controls/lean-mutation.sh` | three Z3 mutations flip their verdicts; one Lean mutation breaks the build | run them; a reproduction that cannot fail certifies nothing |
 
@@ -108,7 +109,7 @@ point:
 
 | precondition relaxed | law | sweep (learner max = Z3 max) |
 |---|---|---|
-| P1 harm factors through the aggregate | allocation harm escapes to G | victim draw 40 against h = 15 |
+| P1 harm equal to the aggregate (relaxed to one victim's draw) | allocation harm escapes to G | victim draw 40 against h = 15 |
 | P2 conserved over the full horizon | cumulative = ceil(T / period) × G | period 8: 40 (UNSAT); 4: 80; 2: 160; 1: 320 |
 | P3 atomic observation | true aggregate = delay × G | delay 1: 40 (UNSAT); 2: 80; 3: 120; 4: 160 |
 
@@ -122,13 +123,15 @@ confirmed each is exploitable as far as predicted.
   system, and the Lean results are over closed data (this profile shape only).
 - Trusted base for the Lean part: the Lean 4 kernel and toolchain. For the Z3 part: the solver
   and the faithfulness of a linear-integer encoding to the informal model; the boundary
-  (harm factors through the aggregate) is not re-proved in Lean.
+  (the two-harm contrast described below) is not re-proved in Lean.
 - The channel-blindness result (0003) encodes the *conclusion* of perfectly secure
   steganography (identical observations, KL = 0) as the adversary. The perfect-security
   construction is Schroeder de Witt et al., *Perfectly Secure Steganography Using Minimum
   Entropy Coupling*, ICLR 2023 (https://arxiv.org/abs/2210.14889); its use for undetectable
   collusion between AI agents is Motwani et al., *Secret Collusion among AI Agents*,
   NeurIPS 2024 (https://arxiv.org/abs/2402.07510). It does not re-derive that construction.
+- **The boundary is a contrast between two harm functions, not a characterisation.** See
+  [Claim boundary and correction](#claim-boundary-and-correction).
 - The per-agent cap is not shown to be unfixable. A local allowance of floor(G / N) is
   collectively safe when the population and its utilisation are known and fixed; what the
   results show is that the local rule needs assumptions the sum rule does not.
@@ -136,6 +139,49 @@ confirmed each is exploitable as far as predicted.
   https://github.com/repowazdogz-droid/commons-agent-lab, was.
 - Independent reproduction by someone other than the author: none known. If you run this and
   the hashes match, you are the first, and the site will say so.
+
+## Claim boundary and correction
+
+**Earned, and checked (Lean 4.30.0 kernel, z3 4.16.0, re-run 2026-09-25):** with N = 6 agents,
+per-agent cap 10 and shared pool G = 40, a profile of nonnegative integer draws in which every
+agent is within its cap can sum to 60 > 40 (`per_agent_cap_insufficient`, SAT record 0001), and
+no profile accepted by the sum rule `sum <= 40` exceeds 40 (`conserved_meter_removes_witness`,
+UNSAT record 0001). For a harm defined as one designated agent's draw with threshold h = 15 < G,
+the sum rule does not bound it (SAT record 0002, witness `[0,0,16,0,0,0]`), and a per-recipient
+cap does (UNSAT record 0002).
+
+**Withdrawn: the universal "if and only if".** Earlier wording in this artifact, in the
+docstring header of `lean/CrossLayer/AccumulationWitness.lean`, in `z3/cce_model.py` and
+`z3/run_cce.py` (`exact_line`, `headline`), in `z3/cce_model.py` (around the `factors_through_aggregate` docstring), in
+`z3/run_rl.py` ("the harm must FACTOR THROUGH THE AGGREGATE", and the P1 labels of the learning experiment, which describe
+the experiment's design rather than a proved condition), in sealed records `0001` to `0003` under `z3/records/` (and, as the label of precondition P1, in `exp-0003`), and on
+the linked site, states that a conserved meter bounds a harm *if and only if* the harm factors
+through the aggregate. That is not established, and it is false in both directions inside the
+same encoding:
+
+- *Not necessary.* Take the allocation harm with the threshold at the pool, h = 40. The harm
+  still does not factor through the aggregate (two profiles with equal sum and different
+  victim draw exist), yet `sum <= 40` and `d_victim > 40` is UNSAT. The control
+  `t2_allocation_escapes` in `z3/controls/mutations.py` already exhibits this: with the
+  threshold raised to the pool, the escape verdict flips from SAT to UNSAT.
+- *Not sufficient.* Take the harm `G - sum` (under-use), which is a function of the sum, with a
+  danger threshold of 30. The sum rule does not bound it: `sum <= 40` and `G - sum > 30` is SAT.
+
+What was actually shown is the contrast between two chosen harm functions at one parameter
+setting. It does not classify which harms a sum rule bounds, and no Lean theorem states it
+(the Lean file's own header says the boundary is not re-proved there).
+
+**What was not changed.** The sealed records and the source files are left byte-identical. The four
+content hashes listed above directly seal only the records (`0001` to `0003` and `exp-0003`), including
+the wording embedded in them. They do not seal the source files (`z3/*.py`, the Lean files); that those
+are unmodified rests on the byte-identity record in `PROVENANCE.md`, and `make z3` regenerating records
+`0001` to `0003` from them byte for byte is an indirect check that they still produce the same output.
+Both still contain the withdrawn wording. This section supersedes it; the verdicts, witnesses and
+hashes are unaffected, since they never depended on the prose.
+
+**Re-run for this correction (2026-09-25, Lean 4.30.0, z3 4.16.0):** `make lean`, `make axioms`,
+`make z3` (records 0001 to 0003 IDENTICAL), `make controls` (all four flip as required) and
+`make rl` (exp-0003 IDENTICAL; about a minute or two, machine-dependent).
 
 ## Provenance
 
