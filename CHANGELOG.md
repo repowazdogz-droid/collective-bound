@@ -6,7 +6,8 @@ of `main`.
 ## Unreleased (last commit 2026-09-25)
 
 - Added CI (`.github/workflows/ci.yml`): installs elan with the Lean toolchain pinned in
-  `lean/lean-toolchain` (4.30.0) and z3-solver 4.16.0, then runs `make all`.
+  `lean/lean-toolchain` (4.30.0) and z3-solver 4.16.0, runs `make all`, and checks that the
+  axiom audit reports six axiom-free theorems.
 - README: opens with the claim, a Try it block and a "What this does not show" section;
   states the commands that reproduce the counts (6 axiom-free theorems, 11 Z3 verdicts, 4
   negative controls). Added `CITATION.cff` and this changelog.

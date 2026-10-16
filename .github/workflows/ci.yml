@@ -20,3 +20,5 @@ jobs:
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Lean build, axiom audit, Z3 records, negative controls
         run: make all
+      - name: Axiom audit must report six axiom-free theorems
+        run: test "$(cd lean && lake env lean Axioms.lean | grep -c 'does not depend on any axioms')" = 6

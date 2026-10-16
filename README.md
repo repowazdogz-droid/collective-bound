@@ -117,8 +117,8 @@ make controls | grep -c '^OK'                                                   
 ```
 
 CI (`.github/workflows/ci.yml`) installs elan with the pinned toolchain and
-z3-solver 4.16.0, then runs `make all` on every push and pull request. It does not run
-`make rl`. Changes are listed in [CHANGELOG.md](CHANGELOG.md); cite with
+z3-solver 4.16.0, runs `make all` on every push and pull request, then fails unless the
+axiom audit reports exactly six axiom-free theorems. It does not run `make rl`. Changes are listed in [CHANGELOG.md](CHANGELOG.md); cite with
 [CITATION.cff](CITATION.cff).
 
 ## The six Lean theorems
