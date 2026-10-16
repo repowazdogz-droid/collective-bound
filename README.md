@@ -17,8 +17,8 @@ python -m pip install -q -r z3/requirements.txt
 make all
 ```
 
-`make all` kernel-checks the two Lean files, prints six `does not depend on any axioms`
-lines, re-derives the three Z3 proof records byte for byte (`record 0001: IDENTICAL`, and so
+`make all` kernel-checks the two Lean files, runs the axiom audit (six lines from
+`Axioms.lean`, each `does not depend on any axioms`), re-derives the three Z3 proof records byte for byte (`record 0001: IDENTICAL`, and so
 on), and runs the four negative controls, each of which must print `OK`. It exits non-zero
 if any step fails. The 180,000-episode learning adversary is separate (`make rl`, about
 90 s).
