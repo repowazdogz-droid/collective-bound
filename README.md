@@ -1,5 +1,49 @@
 # collective-bound
 
+Agents can each stay within their cap yet jointly overdraw a shared pool; in the encoded model, a single sum rule removes every breach.
+
+[![CI](https://img.shields.io/github/actions/workflow/status/repowazdogz-droid/collective-bound/ci.yml?branch=main&label=CI)](https://github.com/repowazdogz-droid/collective-bound/actions/workflows/ci.yml)
+
+## Try it
+
+Prerequisites: [elan](https://github.com/leanprover/elan) with the Lean 4.30.0 toolchain
+(`lean/lean-toolchain` pins it; if it is not yet installed, the first build downloads it,
+which takes longer than the rest of this block), Python 3.10 or newer, and `make`. From a
+fresh clone:
+
+```sh
+python3 -m venv .venv && . .venv/bin/activate
+python -m pip install -q -r z3/requirements.txt
+make all
+```
+
+`make all` kernel-checks the two Lean files, prints six `does not depend on any axioms`
+lines, re-derives the three Z3 proof records byte for byte (`record 0001: IDENTICAL`, and so
+on), and runs the four negative controls, each of which must print `OK`. It exits non-zero
+if any step fails. The 180,000-episode learning adversary is separate (`make rl`, about
+90 s).
+
+## What this does not show
+
+- Nothing here is a claim about a deployed multi-agent system. Every result is about the
+  encoded model: one shared scalar pool, one round, integer draws, a known population. The
+  Lean results are over closed data (N = 6, cap 10, pool 40).
+- It does not show which harms a sum rule bounds. A harm equal to one agent's draw escapes
+  the sum rule in the same model (h = 15 < G = 40), and the earlier "if and only if" wording
+  is withdrawn: see [Claim boundary and correction](#claim-boundary-and-correction).
+- It does not show the per-agent cap is unfixable. A local allowance of floor(G / N) is
+  safe when the population and its utilisation are known and fixed.
+- Trusted base: the Lean 4 kernel and toolchain; z3 and the faithfulness of the
+  linear-integer encoding. The two-harm contrast is not re-proved in Lean, and the
+  channel-blindness record assumes the conclusion of perfectly secure steganography rather
+  than re-deriving it.
+- This work was not preregistered, and no independent reproduction by someone other than
+  the author is known.
+
+Full text: [Frame, trusted base, limitations](#frame-trusted-base-limitations).
+
+## About
+
 Formal and executable evidence for the AMLUCS 2026 accepted work
 **“Per-Agent Compliant, Collectively Unsafe: A Deployable Collective Bound for
 Colluding AI Agents.”**
@@ -59,6 +103,22 @@ collective-collusion-exp-0003  23f5d07874bc6ebf2e7f6386edd3b75f9026225ecfbc37f82
 A different z3 release may print the same verdicts with a different witness for a SAT query
 and therefore a different hash. The verdicts are the claim; the hash is the seal on this
 exact run.
+
+### Counts, and the commands that reproduce them
+
+There is no unit-test suite (no pytest or cargo tests). The checks are Lean theorems, Z3
+verdicts and mutation controls:
+
+```
+cd lean && lake env lean Axioms.lean | grep -c 'does not depend on any axioms'   # 6 theorems
+make z3 | grep -cE '^ +\[ ?(SAT|UNSAT) ?\]'                                       # 11 Z3 verdicts
+make controls | grep -c '^OK'                                                     # 4 controls
+```
+
+CI (`.github/workflows/ci.yml`) installs elan with the pinned toolchain and
+z3-solver 4.16.0, then runs `make all` on every push and pull request. It does not run
+`make rl`. Changes are listed in [CHANGELOG.md](CHANGELOG.md); cite with
+[CITATION.cff](CITATION.cff).
 
 ## The six Lean theorems
 

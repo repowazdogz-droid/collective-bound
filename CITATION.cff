@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this artifact, please cite it as below."
+title: collective-bound
+abstract: "Agents can each stay within their cap yet jointly overdraw a shared pool; in the encoded model, a single sum rule removes every breach."
+type: software
+authors:
+  - family-names: Smith
+    given-names: Warren
+version: "unreleased"
+license: MIT
+repository-code: "https://github.com/repowazdogz-droid/collective-bound"
+url: "https://www.omegaprotocol.org/collective/"
+keywords:
+  - ai-safety
+  - formal-verification
+  - lean4
+  - z3
+  - multi-agent
+references:
+  - type: conference-paper
+    title: "Per-Agent Compliant, Collectively Unsafe: A Deployable Collective Bound for Colluding AI Agents"
+    authors:
+      - family-names: Smith
+        given-names: Warren
+    collection-title: "AMLUCS 2026 (accepted briefing and poster)"
+    year: 2026
+    url: "https://www.omegaprotocol.org/amlucs-2026-poster.pdf"
